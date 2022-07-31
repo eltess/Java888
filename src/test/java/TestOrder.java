@@ -1,5 +1,5 @@
 
-import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import java.util.Arrays;
@@ -12,15 +12,15 @@ public class TestOrder {
 
     @BeforeTest
     private void beforeTest() {
-        UserData user1 = new UserData("Petya", 21, 30, true, "Elektrik");
-        UserData user2 = new UserData("Tom", 22, 40, true, "Santehnik");
-        UserData user3 = new UserData("Toma", 23, 50, true, "AQA");
-        UserData user4 = new UserData("Grey", 34, 60, false, "Medic");
-        UserData user5 = new UserData("Mumu", 45, 70, false, "AQA");
-        UserData user6 = new UserData("Maks", 56, 80, false, "MQA");
-        UserData user7 = new UserData("Tima", 67, 90, false, "Lid");
+        UserData Petya = new UserData("Petya", 21, 30, true, "Elektrik");
+        UserData Tom = new UserData("Tom", 22, 40, true, "Santehnik");
+        UserData Toma = new UserData("Toma", 23, 50, true, "AQA");
+        UserData Grey = new UserData("Grey", 34, 60, false, "Medic");
+        UserData Mumu = new UserData("Mumu", 45, 70, false, "AQA");
+        UserData Maks = new UserData("Maks", 56, 80, false, "MQA");
+        UserData Tima = new UserData("Tima", 67, 90, false, "Lid");
 
-        listUserData = Arrays.asList (user1, user2, user3, user4, user5, user6, user7);
+        listUserData = Arrays.asList (Petya, Tom, Toma, Grey, Mumu, Maks, Tima);
     }
 
     @Test
@@ -36,6 +36,7 @@ public class TestOrder {
             .map(name -> name.age)
             .collect(Collectors.toList());
         System.out.println(getAge);
+        Assert.assertEquals(getAge, 45, "Actual age is different from expected age");
     }
 
     @Test
@@ -52,6 +53,7 @@ public class TestOrder {
                 .filter(element -> element > 30)
                 .collect(Collectors.toList());
         System.out.println(getAge);
+        Assert.assertEquals(getAge, 67, "Actual age is different from expected age");
     }
 
     @Test
@@ -68,6 +70,7 @@ public class TestOrder {
                 .filter(element -> element < 30)
                 .collect(Collectors.toList());
         System.out.println(getAge);
+        Assert.assertEquals(getAge, 21, "Actual age is different from expected age");
     }
 
     @Test
@@ -84,6 +87,8 @@ public class TestOrder {
                 .filter(element -> element == true)
                 .collect(Collectors.toList());
         System.out.println(getAmountMen.size() + " Men");
+        Assert.assertEquals(getAmountMen, 45,
+                "Actual amount of man is different from expected amount of man");
     }
 
     @Test
@@ -100,6 +105,8 @@ public class TestOrder {
                 .filter(element -> element == false)
                 .collect(Collectors.toList());
         System.out.println(getAmountWoman.size() + " Women");
+        Assert.assertEquals(getAmountWoman.size(), 4,
+                "Actual amount of woman is different from expected amount of woman");
     }
 
     @Test
@@ -115,6 +122,8 @@ public class TestOrder {
                 .map(element -> element.age)
                 .max(Integer::compareTo).get();
         System.out.println(getMaxAge + " Max age");
+        Assert.assertEquals(getMaxAge, 67,
+                "Actual maximum age is different from expected maximum age");
     }
 
     @Test
@@ -130,10 +139,12 @@ public class TestOrder {
                 .map(element -> element.age)
                 .min(Integer::compareTo).get();
         System.out.println(getMinAge + " Min age");
+        Assert.assertEquals(getMinAge, 21,
+                "Actual minimum age is different from expected minimum age");
     }
 
     @Test
-    public void getNameAllNames() {
+    public void getNameAll() {
         List<UserData> result = UserFilter.userFiltering(listUserData, new UserFilter() {
             @Override
             public boolean userFiltering(UserData userData) {
@@ -145,6 +156,7 @@ public class TestOrder {
                 .map(element -> element.name)
                 .collect(Collectors.toList());
         System.out.println(getAllName + " All names");
+        Assert.assertTrue(getAllName.size() > 0, "Name list is empty");
     }
 
     @Test
@@ -160,6 +172,7 @@ public class TestOrder {
                 .map(element -> element.speciality)
                 .collect(Collectors.toList());
         System.out.println(getNameAllSpeciality + " - All speciality");
+        Assert.assertTrue(getNameAllSpeciality.size() > 0, "Speciality list is empty");
     }
 
     @Test
@@ -175,5 +188,6 @@ public class TestOrder {
                 .map(element -> element.name)
                 .collect(Collectors.toList());
         System.out.println(getNameAllAQA + " - All AQA speciality");
+        Assert.assertTrue(getNameAllAQA.size() > 0, "QA list is empty");
     }
 }
